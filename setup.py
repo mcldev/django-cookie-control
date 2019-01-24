@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
-    description='Django plugin to add and configure Cookie Control by Civic UK',
+    description='Django plugin to add and configure the Cookie Control by Civic UK',
     long_description=README,
     url='https://github.com/mcldev/django-cookie-control',
     author='Michael Carder',

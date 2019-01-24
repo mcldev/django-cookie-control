@@ -15,6 +15,10 @@ Add 'django_cookie_control' to installed apps:
 'django_cookie_control',
 ...]`
 
+Run or make migrations:
+
+`python.exe manage.py migrate`
+
 ## To configure
 
 For a full list of configuration settings see the Civic UK site, here:

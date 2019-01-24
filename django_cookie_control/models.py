@@ -1,5 +1,3 @@
-from aldryn_translation_tools.models import TranslationHelperMixin
-from cms.utils.i18n import get_current_language
 from django.db import models
 from filer.fields.image import FilerImageField
 from parler.models import TranslatableModel, TranslatedFields
@@ -95,7 +93,7 @@ class CallbackFunction(models.Model):
             return FUNC_START_STR + func_text + FUNC_END_STR
 
 
-class Statement(TranslationHelperMixin, TranslatableModel):
+class Statement(TranslatableModel):
     translations = TranslatedFields(
 
         # The text that you wish to call your terms by, for example Privacy Statement.
@@ -116,8 +114,7 @@ class Statement(TranslationHelperMixin, TranslatableModel):
         return self.__str__()
 
     def __str__(self):
-        language = get_current_language()
-        return self.known_translation_getter('name', default=None, language_code=language, any_language=True)[0]
+        return self.name
 
     def get_dict(self):
         dict = parse_model(self)
@@ -126,7 +123,7 @@ class Statement(TranslationHelperMixin, TranslatableModel):
 
 
 # Optional Cookies
-class PurposeObject(TranslationHelperMixin, TranslatableModel):
+class PurposeObject(TranslatableModel):
     translations = TranslatedFields(
         # A unique identifier for the category
         name = models.CharField(_('A Unique identifier for the category'), max_length=255),
@@ -165,8 +162,9 @@ class PurposeObject(TranslationHelperMixin, TranslatableModel):
         return self.__str__()
 
     def __str__(self):
-        language = get_current_language()
-        return self.known_translation_getter('name', default=None, language_code=language, any_language=True)[0]
+        # language = get_current_language()
+        # return self.known_translation_getter('name', default=None, language_code=language, any_language=True)[0]
+        return self.name
 
     def get_dict(self):
         dict = parse_model(self)
@@ -184,7 +182,7 @@ class PurposeObject(TranslationHelperMixin, TranslatableModel):
         verbose_name_plural = "Optional Cookie Controls"
 
 
-class TextValue(TranslationHelperMixin, TranslatableModel):
+class TextValue(TranslatableModel):
     translations = TranslatedFields(
         title = models.TextField(null=True, blank=True),
         # This site uses cookies to store information on your computer.
@@ -236,8 +234,9 @@ class TextValue(TranslationHelperMixin, TranslatableModel):
         return self.__str__()
 
     def __str__(self):
-        language = get_current_language()
-        return self.known_translation_getter('title', default=None, language_code=language, any_language=True)[0]
+        # language = get_current_language()
+        # return self.known_translation_getter('title', default=None, language_code=language, any_language=True)[0]
+        return self.title
 
     def get_dict(self):
         dict = parse_model(self)

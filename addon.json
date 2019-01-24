@@ -1,0 +1,7 @@
+{
+    "package-name": "django_cookie_control",
+    "installed-apps": [
+        "django_cookie_control"
+    ]
+}
+

@@ -1,0 +1,8 @@
+# Include the license file
+include LICENSE
+
+# Include the data files
+recursive-include django_cookie_control/static *
+recursive-include django_cookie_control/templates *
+
+recursive-exclude docs/ *

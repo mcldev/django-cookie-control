@@ -1,8 +1,7 @@
-from aldryn_translation_tools.admin import AllTranslationsMixin
-from cffi import model
 from django.contrib import admin
 from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
+
 from .models import *
 
 
@@ -40,19 +39,24 @@ admin.site.register(Branding, BrandingAdmin)
 
 # Translated Models
 # -----------------
-class StatementAdmin(AllTranslationsMixin, TranslatableAdmin):
-    form = TranslatableModelForm
 
+class StatementAdmin(TranslatableAdmin):
+    form = TranslatableModelForm
+    fieldsets = (
+        (None, {
+           'fields': ('name', 'url', 'updated', 'description')
+        }),
+    )
 admin.site.register(Statement, StatementAdmin)
 
 
-class TextValuesAdmin(AllTranslationsMixin, TranslatableAdmin):
+class TextValuesAdmin(TranslatableAdmin):
     form = TranslatableModelForm
 
 admin.site.register(TextValue, TextValuesAdmin)
 
 
-class PurposeObjectAdmin(AllTranslationsMixin, TranslatableAdmin):
+class PurposeObjectAdmin(TranslatableAdmin):
     form = TranslatableModelForm
     verbose_name = 'Optional Cookie Control'
     verbose_name_plural = 'Optional Cookie Controls'

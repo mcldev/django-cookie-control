@@ -102,3 +102,25 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+*.pyc
+out
+gen
+
+# Elastic Beanstalk Files
+
+/.elasticbeanstalk/logs/
+
+# Python Packaging
+*.egg-info/
+*.egg
+
+
+

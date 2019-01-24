@@ -71,4 +71,6 @@ A series of settings for the paid Pro plugins, including:
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/optional_cookie_control.jpg)
 
+## To Test
+Use IE11's emulation to test this tool -
 

@@ -35,9 +35,10 @@ setup(
     ],
     install_requires=[
         'django>=1.8',
-        'aldryn-translation-tools',
         'django-parler',
         'django-filer',
+        'django-countries',
+        'django-colorfield',
     ],
     package_data={
         'readme': ['README.md'],

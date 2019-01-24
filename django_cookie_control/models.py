@@ -1,12 +1,11 @@
+from colorfield.fields import ColorField
+from django.contrib.sites.models import Site
 from django.db import models
+from django.forms.models import model_to_dict
+from django.utils.translation import ugettext_lazy as _
+from django_countries.fields import CountryField
 from filer.fields.image import FilerImageField
 from parler.models import TranslatableModel, TranslatedFields
-from django.contrib.sites.models import Site
-from django.utils.translation import ugettext_lazy as _
-from django.forms.models import model_to_dict
-
-from django_countries.fields import CountryField
-from colorfield.fields import ColorField
 
 from .settings import *
 

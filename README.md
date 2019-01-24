@@ -29,7 +29,9 @@ Plugin configuration overview:
 
 1. Add a new configuration - can used multiple for different sites on multisite.
 
-![Add New](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/add_control.jpg)
+![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/add_control.jpg)
+
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/add_control.jpg)
 
 2. Configure Main Settings
  - Site name
@@ -38,21 +40,29 @@ Plugin configuration overview:
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/main_settings.jpg)
 
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/main_settings.jpg)
+
 3. Display Options
 - Position
 - Theme style
 - Toggle type
 - Close style
 
-![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/display_settings.jpg)
+![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/display_options.jpg)
+
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/display_options.jpg)
 
 4. Text and Accessibility
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/configure_accessibility.jpg)
 
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/configure_accessibility.jpg)
+
 5. Custom Settings
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/custom_settings.jpg)
+
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/custom_settings.jpg)
 
 6. Pro and Pro_Multisite Settings
 A series of settings for the paid Pro plugins, including:
@@ -60,6 +70,8 @@ A series of settings for the paid Pro plugins, including:
 - Custom formatting
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/pro_settings_only.jpg)
+
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/pro_settings_only.jpg)
 
 7. Cookies
 - Necessary Cookies
@@ -70,6 +82,8 @@ A series of settings for the paid Pro plugins, including:
     - Using separate functions On Accept or for On Revoke the cookies can be customised to be disable or enabled.
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/optional_cookie_control.jpg)
+
+[//]: <> ( image:: https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/optional_cookie_control.jpg)
 
 ## To Test
 Use IE11's emulation to test this tool -

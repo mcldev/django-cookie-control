@@ -10,5 +10,7 @@ pip install --upgrade twine
 # Test upload and install
 py -3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
+# NB - Ensure version number is updated
+
 # Upload to Pypi
 py -3 -m twine upload dist/*

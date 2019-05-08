@@ -1,16 +1,20 @@
 # Using Python 3
 # https://packaging.python.org/tutorials/packaging-projects/
 
-# Build the dist
-py -3 setup.py sdist bdist_wheel
-
 # Install/upgrade twine
 pip install --upgrade twine
 
+# Clear the dist directory
+- important to remove old dists from wildcard below!
+
+# Build the dist
+python setup.py sdist bdist_wheel
+
 # Test upload and install
-py -3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 # NB - Ensure version number is updated
+# ctb/C**22-
 
 # Upload to Pypi
-py -3 -m twine upload dist/*
+python -m twine upload dist/*

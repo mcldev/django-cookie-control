@@ -9,8 +9,10 @@ def forwards_func(apps, schema_editor):
     # if we directly import it, it'll be the wrong version
     Cookie = apps.get_model("django_cookie_control", "Cookie")
     db_alias = schema_editor.connection.alias
-    for cookie in COOKIE_CONTROL_REQUIRED_DEFAULT:
-        Cookie.objects.using(db_alias).create(name=cookie)
+    qs = Cookie.objects.using(db_alias)
+    for cookie in COOKIE_CONTROL_REQUIRED_DEFAULT + ['TEST22']:
+        if not qs.filter(name=cookie).exists():
+            qs.create(name=cookie)
 
 
 class Migration(migrations.Migration):

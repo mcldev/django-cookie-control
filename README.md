@@ -16,13 +16,9 @@ Add 'django_cookie_control' to installed apps:
 ...]`
 
 Add/Edit the following to `settings.py` if required with required cookies:
-```python
+```
 # DEFAULT if missing:
-COOKIE_CONTROL_REQUIRED_COOKIES = ['csrftoken',
-                                   'django_language',
-                                   'sessionid',
-                                   'django_privacy_mgmt_preferences',
-                                   'AWSALB']
+COOKIE_CONTROL_REQUIRED_COOKIES = ['csrftoken','django_language','sessionid','django_privacy_mgmt_preferences','AWSALB']
 ```
 
 Run or make migrations:
@@ -43,12 +39,11 @@ Plugin configuration overview:
 
 
 2. Configure Main Settings
- - Site name
- - API key
- - Cookie Control product version: Community, Pro, Pro Multisite
+- Site name
+- API key
+- Cookie Control product version: Community, Pro, Pro Multisite
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/main_settings.jpg)
-
 
 3. Display Options
 - Position
@@ -78,12 +73,13 @@ A series of settings for the paid Pro plugins, including:
 
 
 7. Cookies
-- Necessary Cookies
-    - A simple list of cookie names, including wildcards that are necessary for the site
-    - A default list for Django, DjangoCMS, and AWS are already included.
-- Optional Cookies
-    - Add an optional cookie or package of cookies that can be turned off for the site
-    - Using separate functions On Accept or for On Revoke the cookies can be customised to be disable or enabled.
+
+* Necessary Cookies
+  * A simple list of cookie names, including wildcards that are necessary for the site
+  * A default list for Django, DjangoCMS, and AWS are already included.
+* Optional Cookies
+  * Add an optional cookie or package of cookies that can be turned off for the site
+  * Using separate functions On Accept or for On Revoke the cookies can be customised to be disable or enabled.
 
 ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/optional_cookie_control.jpg)
 

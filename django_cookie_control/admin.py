@@ -2,7 +2,7 @@ from django.contrib import admin
 from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
 
-from .models import *
+from django_cookie_control.models import *
 
 
 # Standard Models

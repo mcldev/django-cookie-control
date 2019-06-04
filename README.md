@@ -15,6 +15,16 @@ Add 'django_cookie_control' to installed apps:
 'django_cookie_control',
 ...]`
 
+Add/Edit the following to `settings.py` if required with required cookies:
+```python
+# DEFAULT if missing:
+COOKIE_CONTROL_REQUIRED_COOKIES = ['csrftoken',
+                                   'django_language',
+                                   'sessionid',
+                                   'django_privacy_mgmt_preferences',
+                                   'AWSALB']
+```
+
 Run or make migrations:
 
 `python.exe manage.py migrate`

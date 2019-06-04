@@ -1,9 +1,13 @@
-
 from django.conf import settings
 
-# TODO - get these from settings or default to values below.
+COOKIE_CONTROL_REQUIRED_DEFAULT = ['csrftoken',
+                                   'django_language',
+                                   'sessionid',
+                                   'django_privacy_mgmt_preferences',
+                                   'AWSALB']
 
-COOKIE_CONTROL_REQUIRED_DEFAULT = ['csrftoken', 'django_language', 'sessionid', 'django_privacy_mgmt_preferences', 'AWSALB']
+# Get these from settings or default to above values.
+COOKIE_CONTROL_REQUIRED = getattr(settings, 'COOKIE_CONTROL_REQUIRED_COOKIES', COOKIE_CONTROL_REQUIRED_DEFAULT)
 
 COOKIE_CONTROL_PRODUCT_CHOICES = (('COMMUNITY', 'COMMUNITY'),
                                   ('PRO', 'PRO'),

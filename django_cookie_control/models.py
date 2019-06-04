@@ -470,9 +470,9 @@ class CookieControl(models.Model):
         return self.name
 
     def get_necessary_cookies(self):
-        nec__cookies = [c.get_dict() for c in self.necessaryCookies.all()]
-        nec__cookies = list(set().union(nec__cookies, COOKIE_CONTROL_REQUIRED_DEFAULT))
-        return nec__cookies
+        nec_cookies = [c.get_dict() for c in self.necessaryCookies.all()]
+        nec_cookies = list(set().union(nec_cookies, COOKIE_CONTROL_REQUIRED))
+        return nec_cookies
 
     def get_dict(self):
         dict = parse_model(self)

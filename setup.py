@@ -9,12 +9,13 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_cookie_control',
-    version='1.0.4',
+    version='1.1.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
     description='Django plugin to add and configure the Cookie Control by Civic UK',
     long_description=README,
+    long_description_content_type='text/markdown',
     url='https://github.com/mcldev/django-cookie-control',
     author='Michael Carder Ltd',
     author_email='codetoolbox@michaelcarder.co.uk',
@@ -34,7 +35,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'django>=1.8',
+        'django>=1.11',
         'django-parler',
         'django-filer',
         'django-countries',

@@ -3,6 +3,7 @@ from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
 
 from django_cookie_control.models import *
+from django_cookie_control import cache
 
 
 # Standard Models
@@ -124,6 +125,10 @@ class CookieControlAdmin(admin.ModelAdmin):
             'fields': ('necessaryCookies', ),
         }),
     )
+
+    def save_model(self, request, obj, form, change):
+        super(CookieControlAdmin, self).save_model(request, obj, form, change)
+        cache.delete(obj.site.id)
 
 admin.site.register(CookieControl, CookieControlAdmin)
 

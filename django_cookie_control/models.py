@@ -462,7 +462,6 @@ class CookieControl(models.Model):
                                  help_text=_("Set all aspects of the module's styling, and remove any back links to CIVIC."),
                                  on_delete=models.SET_NULL, null=True, blank=True)
 
-
     def __unicode__(self):
         return self.__str__()
 
@@ -509,6 +508,5 @@ class CookieControl(models.Model):
     class Meta:
         verbose_name = "Cookie Control"
         verbose_name_plural = "Cookie Controls"
-
 
 

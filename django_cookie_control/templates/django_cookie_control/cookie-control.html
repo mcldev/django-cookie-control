@@ -12,10 +12,10 @@
 {% addtoblock 'js' %}
     {% if COOKIE_CONTROL_CONFIG %}
     <script type="text/javascript">
-        $('document').ready(function() {
+        window.onload = function() {
             var config = {{ COOKIE_CONTROL_CONFIG | safe }};
             CookieControl.load(config);
-        });
+        };
    </script>
     {% endif %}
 {% endaddtoblock %}

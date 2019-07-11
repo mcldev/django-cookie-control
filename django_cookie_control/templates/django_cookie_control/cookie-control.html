@@ -4,18 +4,21 @@
 {#<script src="https://cc.cdn.civiccomputing.com/8/cookieControl-8.x.min.js"></script>#}
 
 {% addtoblock 'js' %}
-    <script async src="{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}"></script>
+{#    <script async src="{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}"></script>#}
     <script async src="{% static 'django_cookie_control/js/cookie-enable-disable.js' %}"></script>
 {% endaddtoblock %}
 
 
 {% addtoblock 'js' %}
     {% if COOKIE_CONTROL_CONFIG %}
-    <script type="text/javascript">
-        window.onload = function() {
-            var config = {{ COOKIE_CONTROL_CONFIG | safe }};
-            CookieControl.load(config);
-        };
-   </script>
+        <script type="text/javascript">
+            var cookie_control_config = {{ COOKIE_CONTROL_CONFIG | safe }};
+            window.onload = function() {
+                $.getScript("{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}", function() {
+                    {# Requires jQuery! - Use this so the load/reload is compatible with DjangoCMS 3.5.x + #}
+                    CookieControl.load(cookie_control_config);
+                });
+            };
+        </script>
     {% endif %}
 {% endaddtoblock %}

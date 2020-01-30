@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_cookie_control',
-    version='2.0.0',
+    version='2.1.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
@@ -17,7 +17,7 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/mcldev/django-cookie-control',
-    author='Michael Carder Ltd',
+    author='Civic UK, Michael Carder Ltd',
     author_email='codetoolbox@michaelcarder.co.uk',
     classifiers=[
         'Environment :: Web Environment',
@@ -25,7 +25,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Framework :: Django',
-        'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.11',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',

@@ -48,6 +48,9 @@ class Cookie(models.Model):
     def get_dict(self):
         return str(self)
 
+    class Meta:
+        ordering = ['name']
+
 
 class ThirdPartyCookie(models.Model):
     name = models.CharField(max_length=512)
@@ -61,6 +64,9 @@ class ThirdPartyCookie(models.Model):
 
     def get_dict(self):
         return parse_model(self)
+
+    class Meta:
+        ordering = ['name']
 
 
 class CallbackFunction(models.Model):

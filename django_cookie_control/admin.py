@@ -38,9 +38,14 @@ class BrandingAdmin(admin.ModelAdmin):
 admin.site.register(Branding, BrandingAdmin)
 
 
+class iabConfigAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(iabConfig, iabConfigAdmin)
+
+
 # Translated Models
 # -----------------
-
 class StatementAdmin(TranslatableAdmin):
     form = TranslatableModelForm
     fieldsets = (
@@ -55,6 +60,12 @@ class TextValuesAdmin(TranslatableAdmin):
     form = TranslatableModelForm
 
 admin.site.register(TextValue, TextValuesAdmin)
+
+
+class iabTextValuesAdmin(TranslatableAdmin):
+    form = TranslatableModelForm
+
+admin.site.register(iabText, iabTextValuesAdmin)
 
 
 class PurposeObjectAdmin(TranslatableAdmin):
@@ -76,7 +87,8 @@ class PurposeObjectAdmin(TranslatableAdmin):
 admin.site.register(PurposeObject, PurposeObjectAdmin)
 
 
-# Optional Cookie Inline.. maybe
+# Optional Cookie Inline..
+# -----------------
 class OptionalCookieInline(admin.TabularInline):
     model = CookieControl.optionalCookies.through
     verbose_name = 'Optional Cookie'
@@ -103,7 +115,7 @@ class CookieControlAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-           'fields': ('site', 'name', 'apiKey', 'product')
+           'fields': ('site', 'name', 'apiKey', 'product', 'iabCMP')
         }),
         ('Display Options', {
             'classes': ('collapse',),
@@ -112,6 +124,10 @@ class CookieControlAdmin(admin.ModelAdmin):
         ('Text and Accessibility', {
             'classes': ('collapse',),
             'fields': ('statement', 'text', 'accessibility'),
+        }),
+        ('IAB Transparency and Consent Framework ', {
+            'classes': ('collapse',),
+            'fields': ('iabConfig', 'iabText',),
         }),
         ('Custom Settings', {
             'classes': ('collapse',),

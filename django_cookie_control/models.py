@@ -376,12 +376,79 @@ class Accessibility(models.Model):
         return dict
 
 
+class iabConfig(models.Model):
+
+    description = models.CharField(help_text=_('Description of iabCMP'), max_length=512,
+                                   default='Selected companies may access and use certain information on your device to serve relevant advertisements')
+
+    globalVendorListLocation = models.CharField(help_text=_('Remaps the accesskey that the module is assigned to'),
+                                                max_length=512, default='https://vendorlist.consensu.org/vendorlist.json')
+
+    language = models.CharField(help_text=_('Two letter ISO language code that should be used to display information about IAB purposes.'),
+                                max_length=128, default='en')
+
+    gdprAppliesGlobally = models.BooleanField(help_text=_('Determines whether or not consent should be obtained from all users regardless of their location'),
+                                              default=True)
+
+    recommendedState = models.BooleanField(help_text=_('Determines whether or not the 5 IAB purposes should be accepted as part of your recommended settings.'),
+                                              default=True)
+
+    def get_recommendedState(self):
+        if self.recommendedState:
+            return {1: True, 2: True, 3: True, 4: True, 5: True}
+
+    def __unicode__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return "iabCMP: {iabcmp}".format(iabcmp=self.description[:30])
+
+    def get_dict(self):
+        dict = parse_model(self)
+        return dict
+
+
+class iabText(TranslatableModel):
+    translations = TranslatedFields(
+        label = models.TextField(null=True, blank=True),
+        description = models.TextField(null=True, blank=True),
+        configure = models.TextField(null=True, blank=True),
+        panelTitle = models.TextField(null=True, blank=True),
+        panelIntro = models.TextField(null=True, blank=True),
+        aboutIab = models.TextField(null=True, blank=True),
+        iabName = models.TextField(null=True, blank=True),
+        iabLink = models.TextField(null=True, blank=True),
+        panelBack = models.TextField(null=True, blank=True),
+        vendorTitle = models.TextField(null=True, blank=True),
+        vendorConfigure = models.TextField(null=True, blank=True),
+        vendorBack = models.TextField(null=True, blank=True),
+        acceptAll = models.TextField(null=True, blank=True),
+        rejectAll = models.TextField(null=True, blank=True),
+        back = models.TextField(null=True, blank=True),
+    )
+
+    def __unicode__(self):
+        return self.__str__()
+
+    def __str__(self):
+        # language = get_current_language()
+        # return self.known_translation_getter('title', default=None, language_code=language, any_language=True)[0]
+        return self.label
+
+    def get_dict(self):
+        dict = parse_model(self)
+        return dict
+
+
+
 class CookieControl(models.Model):
 
     site = models.OneToOneField(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     apiKey = models.CharField(max_length=255)
     product = models.CharField(max_length=255, choices=COOKIE_CONTROL_PRODUCT_CHOICES)
+    iabCMP = models.BooleanField(help_text=_('Turns Cookie Control into an IAB registered Consent Management Provider (CMP)'),
+                                 default=False)
 
     # Main Config
     # ------------------------------
@@ -431,6 +498,15 @@ class CookieControl(models.Model):
                                       help_text=_("Determines the accessibility helpers available."),
                                       on_delete=models.CASCADE, null=True, blank=True)
 
+    # iabCMP configuration and Text
+    iabConfig = models.ForeignKey(iabConfig,
+                                  help_text=_("Cookie Control offers support for the IAB Transparency and Consent Framework (TCF v1.1), should the property iabCMP be enabled."),
+                                  on_delete=models.CASCADE, null=True, blank=True)
+
+
+    iabText = models.ForeignKey(iabText,
+                                  help_text=_("You may also configure the text used to introduce the IAB category / panels"),
+                                  on_delete=models.CASCADE, null=True, blank=True)
 
     # Custom Settings
     # ------------------------------
@@ -497,8 +573,16 @@ class CookieControl(models.Model):
             dict['excludedCountries'] = [str(c) for c in self.excludedCountries]
         if 'branding' in dict:
             dict['branding'] = self.branding.get_dict()
+        if self.iabCMP:
+            if 'iabConfig' in dict:
+                dict['iabConfig'] = self.iabConfig.get_dict()
+            if 'iabText' in dict:
+                if not 'text' in dict:
+                    dict['text'] = {}
+                dict['text']['iabCMP'] = self.iabText.get_dict()
+                del dict['iabText']
 
-        # Pro + Pro Multisite Options
+                # Pro + Pro Multisite Options
         if self.product in ['COMMUNITY']:
             if 'initialState' in dict:
                 del dict['initialState']

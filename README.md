@@ -33,7 +33,7 @@ Run or make migrations:
 
 For a full list of configuration settings see the Civic UK site, here:
 
-[https://www.civicuk.com/cookie-control/documentation][https://www.civicuk.com/cookie-control/documentation]
+https://www.civicuk.com/cookie-control/documentation
 
 Plugin configuration overview:
 
@@ -50,7 +50,7 @@ Plugin configuration overview:
 
 3. Settings:
 
-    [https://www.civicuk.com/cookie-control/documentation#configuration-options][https://www.civicuk.com/cookie-control/documentation#configuration-options]
+    https://www.civicuk.com/cookie-control/documentation#configuration-options
     - consentCookieExpiry
     - statement
     - logConsent
@@ -61,7 +61,7 @@ Plugin configuration overview:
 
 4. IAB/CCPA Frameworks:
     
-    [https://www.civicuk.com/cookie-control/documentation#iab][https://www.civicuk.com/cookie-control/documentation#iab]
+    https://www.civicuk.com/cookie-control/documentation#iab
     - mode
     - publisherCC
     - iabCMP
@@ -73,20 +73,20 @@ Plugin configuration overview:
 
 5. Appearance and Behaviour:
 
-    [https://www.civicuk.com/cookie-control/documentation#customising][https://www.civicuk.com/cookie-control/documentation#customising]
+    https://www.civicuk.com/cookie-control/documentation#customising
     - All other settings
     
     ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/accessiblity.jpg)
     
 6. Accessibility:
 
-    [https://www.civicuk.com/cookie-control/documentation#accessibility-object][https://www.civicuk.com/cookie-control/documentation#accessibility-object]
+    https://www.civicuk.com/cookie-control/documentation#accessibility-object
     - Determines the accessibility helpers available, such as the accesskey and keyboard focus style. 
     ![](https://raw.githubusercontent.com/mcldev/django-cookie-control/master/docs/images/configure_accessibility.jpg)
 
 7. Cookies:
 
-    [https://www.civicuk.com/cookie-control/documentation#purpose-object][https://www.civicuk.com/cookie-control/documentation#purpose-object]
+    https://www.civicuk.com/cookie-control/documentation#purpose-object
     * Necessary Cookies
       * A simple list of cookie names, including wildcards that are necessary for the site
       * A default list for Django, DjangoCMS, and AWS are already included.
@@ -99,4 +99,4 @@ Plugin configuration overview:
 
 
 
-[https://www.civicuk.com/cookie-control/documentation]: https://www.civicuk.com/cookie-control/documentation
+

@@ -9,7 +9,7 @@
         <script type="text/javascript">
             var cookie_control_config = {{ COOKIE_CONTROL_CONFIG | safe }};
             {#var cookie_js_url = "{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}";#}
-            var cookie_js_url = "https://cc.cdn.civiccomputing.com/8/cookieControl-8.x.min.js";
+            var cookie_js_url = "https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js";
             window.onload = function() {
                 $.getScript(cookie_js_url, function() {
                     {# Requires jQuery! - Use this so the load/reload is compatible with DjangoCMS 3.5.x + #}

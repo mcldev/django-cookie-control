@@ -8,44 +8,21 @@ from django_cookie_control import cache
 
 # Standard Models
 # -----------------
-class CookiesAdmin(admin.ModelAdmin):
+@admin.register(Accessibility, Branding, CallbackFunction, Cookie, iabConfig, ThirdPartyCookie)
+class StandardModelAdmin(admin.ModelAdmin):
     pass
-
-admin.site.register(Cookie, CookiesAdmin)
-
-
-class ThirdPartyCookiesAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(ThirdPartyCookie, ThirdPartyCookiesAdmin)
-
-
-class CallbackFunctionsAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(CallbackFunction, CallbackFunctionsAdmin)
-
-
-class AccessibilityValuesAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(Accessibility, AccessibilityValuesAdmin)
-
-
-class BrandingAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(Branding, BrandingAdmin)
-
-
-class iabConfigAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(iabConfig, iabConfigAdmin)
 
 
 # Translated Models
 # -----------------
+@admin.register(iabText, TextValue)
+class TranslatedModelAdmin(TranslatableAdmin):
+    form = TranslatableModelForm
+
+
+# Other Translated Models
+# -----------------
+@admin.register(Statement, CCPAConfig)
 class StatementAdmin(TranslatableAdmin):
     form = TranslatableModelForm
     fieldsets = (
@@ -53,38 +30,24 @@ class StatementAdmin(TranslatableAdmin):
            'fields': ('name', 'url', 'updated', 'description')
         }),
     )
-admin.site.register(Statement, StatementAdmin)
 
-
-class TextValuesAdmin(TranslatableAdmin):
-    form = TranslatableModelForm
-
-admin.site.register(TextValue, TextValuesAdmin)
-
-
-class iabTextValuesAdmin(TranslatableAdmin):
-    form = TranslatableModelForm
-
-admin.site.register(iabText, iabTextValuesAdmin)
-
-
+@admin.register(PurposeObject)
 class PurposeObjectAdmin(TranslatableAdmin):
     form = TranslatableModelForm
     verbose_name = 'Optional Cookie Control'
     verbose_name_plural = 'Optional Cookie Controls'
     fieldsets = (
         (None, {
-           'fields': ('name', 'label', 'description')
+           'fields': ('name', 'label', 'description', 'recommendedState', 'lawfulBasis')
         }),
         ('Cookies', {
-            'fields': ('cookies', 'thirdPartyCookies', 'recommendedState', 'lawfulBasis')
+            'fields': ('cookies', 'thirdPartyCookies')
         }),
         ('Callback Functions', {
             'fields': ('onAccept', 'onRevoke')
         }),
     )
 
-admin.site.register(PurposeObject, PurposeObjectAdmin)
 
 
 # Optional Cookie Inline..
@@ -93,6 +56,7 @@ class OptionalCookieInline(admin.TabularInline):
     model = CookieControl.optionalCookies.through
     verbose_name = 'Optional Cookie'
     verbose_name_plural = 'Optional Cookies'
+    extra = 1
 
 
 class OptionalCookieAdmin(admin.ModelAdmin):
@@ -106,6 +70,7 @@ class OptionalCookieAdmin(admin.ModelAdmin):
 
 # Main Cookie Control Model
 # -----------------
+@admin.register(CookieControl)
 class CookieControlAdmin(admin.ModelAdmin):
     inlines = [
         OptionalCookieInline,
@@ -115,27 +80,40 @@ class CookieControlAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-           'fields': ('site', 'name', 'apiKey', 'product', 'iabCMP')
+           'fields': ('site', 'name', 'apiKey', 'product')
         }),
-        ('Display Options', {
+        ('Settings', {
             'classes': ('collapse',),
-            'fields': ('position', 'theme', 'toggleType', 'closeStyle'),
+            'fields': ('consentCookieExpiry', 'statement', 'logConsent', 'encodeCookie', 'subDomains'),
         }),
-        ('Text and Accessibility', {
+        ('IAB/CCPA Frameworks', {
             'classes': ('collapse',),
-            'fields': ('statement', 'text', 'accessibility'),
+            'fields': ('mode', 'publisherCC', 'iabCMP', 'iabConfig', 'iabText', 'ccpaConfig'),
         }),
-        ('IAB Transparency and Consent Framework ', {
+        ('Appearance and behaviour', {
             'classes': ('collapse',),
-            'fields': ('iabConfig', 'iabText',),
+            'fields': ('initialState',
+                       'notifyOnce',
+                       'rejectButton',
+                       'layout',
+                       'position',
+                       'theme',
+                       'toggleType',
+                       'acceptBehaviour',
+                       'closeOnGlobalChange',
+                       'closeStyle',
+                       'notifyDismissButton',
+                       'settingsStyle',
+                       'text',
+                       'branding',
+                       'excludedCountries',
+                       'onLoad',
+                       'sameSiteCookie',
+                       'sameSiteValue'),
         }),
-        ('Custom Settings', {
+        ('Accessibility', {
             'classes': ('collapse',),
-            'fields': ('consentCookieExpiry', 'logConsent', 'notifyOnce', 'onLoad'),
-        }),
-        ('Pro & Pro_Multisite Settings Only', {
-            'classes': ('collapse',),
-            'fields': ('initialState', 'layout', 'excludedCountries', 'branding'),
+            'fields': ('accessibility', ),
         }),
         ('Cookies', {
             'fields': ('necessaryCookies', ),
@@ -146,7 +124,6 @@ class CookieControlAdmin(admin.ModelAdmin):
         super(CookieControlAdmin, self).save_model(request, obj, form, change)
         cache.delete(obj.site.id)
 
-admin.site.register(CookieControl, CookieControlAdmin)
 
 
 

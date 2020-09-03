@@ -72,6 +72,7 @@ class OptionalCookieAdmin(admin.ModelAdmin):
 # -----------------
 @admin.register(CookieControl)
 class CookieControlAdmin(admin.ModelAdmin):
+    list_display = ['name', 'is_enabled']
     inlines = [
         OptionalCookieInline,
     ]
@@ -80,7 +81,7 @@ class CookieControlAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-           'fields': ('site', 'name', 'apiKey', 'product')
+           'fields': ('is_enabled', 'site', 'name', 'apiKey', 'product')
         }),
         ('Settings', {
             'classes': ('collapse',),

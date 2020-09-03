@@ -7,12 +7,24 @@
 {% addtoblock 'js' %}
     {% if COOKIE_CONTROL_CONFIG %}
         <script type="text/javascript">
-            var cookie_control_config = {{ COOKIE_CONTROL_CONFIG | safe }};
+            var cookie_control_config = {{ COOKIE_CONTROL_CONFIG|safe }};
+
             {#var cookie_js_url = "{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}";#}
             var cookie_js_url = "https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js";
+
+            {# Use this so the load/reload is compatible with DjangoCMS 3.5.x + #}
             window.onload = function() {
                 $.getScript(cookie_js_url, function() {
-                    {# Requires jQuery! - Use this so the load/reload is compatible with DjangoCMS 3.5.x + #}
+
+                    {# Error when migrating from ver 8 > 9 the existing cookies aren't the same and cause errors #}
+                    var cc_cookie = JSON.parse(CookieControl.getCookie('CookieControl'));
+                    if(cc_cookie &&
+                        'optionalCookies' in cookie_control_config &&
+                        !('optionalCookies' in cc_cookie)) {
+                        {% if debug %}console.log('Deleted cookie!'); {% endif %}
+                        CookieControl.delete('CookieControl');
+                    }
+                    {# Load Cookie Control here #}
                     CookieControl.load(cookie_control_config);
                 });
             };

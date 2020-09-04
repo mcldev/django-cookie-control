@@ -526,7 +526,7 @@ class CCPAConfig(TranslatableModel):
 
 class CookieControl(models.Model):
 
-    site = models.OneToOneField(Site, on_delete=models.CASCADE)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     is_enabled = models.BooleanField(default=True)
 
@@ -749,6 +749,9 @@ class CookieControl(models.Model):
                     dict['text'] = {}
                 dict['text']['iabCMP'] = self.iabText.get_dict()
                 del dict['iabText']
+        if self.mode == 'CCPA':
+            if 'ccpaConfig' in dict:
+                dict['ccpaConfig'] = self.ccpaConfig.get_dict()
 
                 # Pro + Pro Multisite Options
         if self.product in ['COMMUNITY']:
@@ -766,3 +769,4 @@ class CookieControl(models.Model):
     class Meta:
         verbose_name = "Cookie Control"
         verbose_name_plural = "Cookie Controls"
+

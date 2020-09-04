@@ -1,5 +1,5 @@
 {% load static sekizai_tags %}
-{% if IS_ENABLED %}
+{% if instance.is_enabled %}
     {% addtoblock 'js' %}
         <script async src="{% static 'django_cookie_control/js/cookie-enable-disable.js' %}"></script>
     {% endaddtoblock %}
@@ -9,25 +9,33 @@
             <script type="text/javascript">
                 var cookie_control_config = {{ COOKIE_CONTROL_CONFIG|safe }};
 
-                {#var cookie_js_url = "{% static 'django_cookie_control/cookie-control/cookieControl-8.x.min.js' %}";#}
                 var cookie_js_url = "https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js";
 
                 {# Use this so the load/reload is compatible with DjangoCMS 3.5.x + #}
                 window.onload = function() {
                     $.getScript(cookie_js_url, function() {
 
-                        {# Error when migrating from ver 8 > 9 the existing cookies aren't the same and cause errors #}
-                        {# var cc_cookie = JSON.parse(CookieControl.getCookie('CookieControl'));#}
-                        {# if(cc_cookie && #}
-                        {#    'optionalCookies' in cookie_control_config &&#}
-                        {#    !('optionalCookies' in cc_cookie)) {#}
-                        {#    {% if debug %}console.log('Deleted cookie!'); {% endif %}#}
-                        {#    CookieControl.delete('CookieControl');#}
-                        {# } #}
-                        {# Load Cookie Control here #}
+                         {# Fix for error when switching between IabCMP True/False. #}
+                         var cc_cookie = JSON.parse(CookieControl.getCookie('CookieControl'));
+
+                         {# If existing cookie check for IAB - fixes bug when switching between enabled/disabled #}
+                         {#  Is Cookie correctly set up for IAB (iabConsent and NO optionalCookies) #}
+                         {#  Is Cookie correctly set up for NOT IAB (NO iabConsent and optionally with optionalCookies) #}
+                         if(cc_cookie) {
+                             var cookie_valid = ('necessaryCookies' in cc_cookie);
+                             var iab_enabled = ('iabCMP' in cookie_control_config) && (cookie_control_config.iabCMP);
+                             var cookie_iab_enabled = ('iabConsent' in cc_cookie) && !('optionalCookies' in cc_cookie);
+                             if(!cookie_valid || (iab_enabled !== cookie_iab_enabled)){
+                                {% if debug %}console.log('Deleting CookieControl cookies!'); {% endif %}
+                                CookieControl.delete('CookieControl');
+                                CookieControl.delete('CookieControlTC');
+                             }
+                         }
+                         {# Load Cookie Control here #}
                         CookieControl.load(cookie_control_config);
                     });
                 };
+
             </script>
         {% endif %}
     {% endaddtoblock %}

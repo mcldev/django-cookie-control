@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_cookie_control',
-    version='4.0.2',
+    version='4.1.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
@@ -26,8 +26,8 @@ setup(
         'Operating System :: OS Independent',
         'Framework :: Django',
         'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.2',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',

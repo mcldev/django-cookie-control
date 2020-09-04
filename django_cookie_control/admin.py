@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.contrib import messages
 from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
 
 from django_cookie_control.models import *
-from django_cookie_control import cache
+from django_cookie_control import cache as cookie_cache
 
 
 # Standard Models
@@ -72,7 +73,8 @@ class OptionalCookieAdmin(admin.ModelAdmin):
 # -----------------
 @admin.register(CookieControl)
 class CookieControlAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_enabled']
+    list_editable = ['is_enabled']
+    list_display = ['name', 'is_enabled', 'mode', 'iabCMP']
     inlines = [
         OptionalCookieInline,
     ]
@@ -123,7 +125,9 @@ class CookieControlAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         super(CookieControlAdmin, self).save_model(request, obj, form, change)
-        cache.delete(obj.site.id)
+        if obj.is_enabled and CookieControl.objects.filter(site_id=obj.site_id, is_enabled=True).count() > 1:
+            messages.add_message(request, messages.WARNING,
+                                 'Caution: multiple CookieControls enabled for site: {}'.format(obj.site))
 
 
 

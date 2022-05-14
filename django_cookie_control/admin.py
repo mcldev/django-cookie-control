@@ -39,7 +39,7 @@ class PurposeObjectAdmin(TranslatableAdmin):
     verbose_name_plural = 'Optional Cookie Controls'
     fieldsets = (
         (None, {
-           'fields': ('name', 'label', 'description', 'recommendedState', 'lawfulBasis')
+           'fields': ('name', 'label', 'description', 'recommendedState', 'lawfulBasis', 'vendors')
         }),
         ('Cookies', {
             'fields': ('cookies', 'thirdPartyCookies')

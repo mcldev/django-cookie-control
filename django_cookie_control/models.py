@@ -65,6 +65,31 @@ class ThirdPartyCookie(models.Model):
         ordering = ['name']
 
 
+class Vendors(TranslatableModel):
+    translations = TranslatedFields(
+
+        # The text that you wish to call your terms by, for example Privacy Statement.
+        name=models.CharField(max_length=255),
+
+        # The text description that introduces your vendor
+        # string
+        description=models.TextField(help_text=_('Vendor Description'), null=True, blank=True),
+
+    )
+    url = models.URLField(help_text=_('URL third-party cookies'))
+    thirdPartyCookies = models.NullBooleanField(help_text=_('Vendors use Third party cookies'), null=True,
+                                               blank=True)
+
+    def __unicode__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self.id
+
+    def get_dict(self):
+        return parse_model(self)
+
+
 class CallbackFunction(models.Model):
     automated_prefix = models.CharField(max_length=512, null=True, blank=True)
     function_text = models.TextField(help_text=_('JavaScript function, e.g. "function () {...}" '), null=True,
@@ -144,6 +169,11 @@ class PurposeObject(TranslatableModel):
     # Only applicable if the category will set third party cookies on acceptance.
     thirdPartyCookies = models.ManyToManyField(ThirdPartyCookie, blank=True)
 
+    # The vendors that place the cookies.
+    # You can use this if you want to explicitly display the vendors that place the cookies that you use.
+    #   This is particularly useful if you are targeting users in Brazil and want to comply with LGPD.
+    vendors = models.ManyToManyField(Vendors, blank=True)
+
     # Callback function that will fire on user's opting into this cookie category.
     onAccept = models.ForeignKey(CallbackFunction, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name='accept_function')
@@ -177,6 +207,8 @@ class PurposeObject(TranslatableModel):
         dict['cookies'] = parse_sub_model(self.cookies.all())
         if 'thirdPartyCookies' in dict:
             dict['thirdPartyCookies'] = parse_sub_model(self.thirdPartyCookies.all())
+        if 'vendors' in dict:
+            dict['vendors'] = parse_sub_model(self.vendors.all())
         if 'onAccept' in dict:
             dict['onAccept'] = self.onAccept.get_dict(enable=True)
         if 'onRevoke' in dict:
@@ -247,6 +279,14 @@ class TextValue(TranslatableModel):
         landmark=models.TextField(null=True, blank=True),
         # (used by screen readers) Cookie preferences.
         #
+        showVendors=models.TextField(null=True, blank=True),
+        # Show vendors within this category
+        #
+        thirdPartyCookies=models.TextField(null=True, blank=True),
+        # This vendor may set third party cookies.
+        #
+        readMore=models.TextField(null=True, blank=True),
+        # Read more
     )
 
     def __unicode__(self):
@@ -301,6 +341,10 @@ class Branding(models.Model):
     #
     # string dark theme default: #313147 light theme default: #f4f4f4
     #
+    notifyFontColor = ColorField(help_text=_("CSS color that you'd like to use for all text and icons within the notify bar."),
+                                 blank=True, null=True)
+    notifyBackgroundColor = ColorField(help_text=_("CSS background-color that you'd like to use throughout the notify bar."),
+                                 blank=True, null=True)
     acceptText = ColorField(help_text=_("CSS color for text of the module's primary 'accept' buttons"), blank=True,
                             null=True)
     # The CSS color that you'd like to use for the text within the module's primary 'accept' buttons.
@@ -327,6 +371,10 @@ class Branding(models.Model):
     #
     # string dark theme default: #313147; light theme default: #fff
     #
+    closeText = ColorField(help_text=_("CSS color that you'd like to use for the text within the module's Close button"), blank=True, null=True)
+    closeBackground = ColorField(
+        help_text=_("CSS background-color that you'd like to use for the module's 'Close' button, if you have set the closeStyle property to 'button'."), blank=True,
+        null=True)
     toggleText = ColorField(help_text=_("CSS color for the toggle button's text"), blank=True, null=True)
     # The CSS color that you'd like to apply to the toggle button's text.
     #
@@ -408,9 +456,18 @@ class Accessibility(models.Model):
         help_text=_('Determines if the module should use more accentuated styling to highlight elements in focus'),
         null=True, blank=True)
 
+    outline = models.NullBooleanField(null=True, blank=True,
+                                      help_text=_(
+                                          "Determines if the module should show the browser's default outline styling on elements. It can be combined with highlightFocus to add both a highlight and an outline to focused elements."))
+
     overlay = models.NullBooleanField(null=True, blank=True,
                                       help_text=_(
                                           "Determines if the module should use an overlay to accentuate the presence of an open notification bar or panel and discourage use of the main site while these elements are open."))
+
+    disableSiteScrolling = models.NullBooleanField(null=True, blank=True,
+                                      help_text=_(
+                                          "Determines if the module should prevent scrolling of the site when either the notification bar or panel are open. This property is recommended for accessibility purposes, though not enabled by default."))
+
 
     def __unicode__(self):
         return self.__str__()
@@ -424,34 +481,28 @@ class Accessibility(models.Model):
 
 
 class iabConfig(models.Model):
-    description = models.CharField(help_text=_('Description of iabCMP'), max_length=512,
-                                   default='Selected companies may access and use certain information on your device to serve relevant advertisements')
 
-    globalVendorListLocation = models.CharField(help_text=_('Remaps the accesskey that the module is assigned to'),
-                                                max_length=512,
-                                                default='https://vendorlist.consensu.org/vendorlist.json')
-
-    language = models.CharField(
-        help_text=_('Two letter ISO language code that should be used to display information about IAB purposes.'),
-        max_length=128, default='en')
-
-    gdprAppliesGlobally = models.BooleanField(
-        help_text=_('Determines whether or not consent should be obtained from all users regardless of their location'),
+    dropDowns = models.BooleanField(
+        help_text=_('If set to true, Purposes, Special Purposes, Features and Special Features will be hidden by default'),
         default=True)
 
-    recommendedState = models.BooleanField(help_text=_(
-        'Determines whether or not the 5 IAB purposes should be accepted as part of your recommended settings.'),
-                                           default=True)
+    fullLegalDescriptions = models.BooleanField(
+        help_text=_('If set to true, the full legal description for each Purpose or Feature will be shown'),
+        default=True)
 
-    def get_recommendedState(self):
-        if self.recommendedState:
-            return {1: True, 2: True, 3: True, 4: True, 5: True}
+    saveOnlyOnClose = models.BooleanField(
+        help_text=_('Cookie Control will wait until the user closes the widget before saving the consent'),
+        default=True)
+
+    publisherCC = models.CharField(
+        help_text=_('The country code of the country that determines legislation of reference.'),
+        max_length=128, default='en')
 
     def __unicode__(self):
         return self.__str__()
 
     def __str__(self):
-        return "iabCMP: {iabcmp}".format(iabcmp=self.description[:30])
+        return f"iabConfig - {self.id}"
 
     def get_dict(self):
         dict = parse_model(self)
@@ -479,6 +530,17 @@ class iabText(TranslatableModel):
         relyLegitimateInterest=models.TextField(null=True, blank=True),
         acceptAll=models.TextField(null=True, blank=True),
         rejectAll=models.TextField(null=True, blank=True),
+        legalDescription=models.TextField(null=True, blank=True),
+        cookieMaxAge=models.TextField(null=True, blank=True),
+        usesNonCookieAccessTrue=models.TextField(null=True, blank=True),
+        usesNonCookieAccessFalse=models.TextField(null=True, blank=True),
+        storageDisclosures=models.TextField(null=True, blank=True),
+        disclosureDetailsColumn=models.TextField(null=True, blank=True),
+        disclosurePurposesColumn=models.TextField(null=True, blank=True),
+        seconds=models.TextField(null=True, blank=True),
+        minutes=models.TextField(null=True, blank=True),
+        hours=models.TextField(null=True, blank=True),
+        days=models.TextField(null=True, blank=True),
         savePreferences=models.TextField(null=True, blank=True),
     )
 
@@ -685,7 +747,7 @@ class CookieControl(models.Model):
                                  on_delete=models.SET_NULL, null=True, blank=True)
 
     # Either add the value all, or a list of 2 letter ISO codes for the countries you wish to disable the module for.
-    excludedCountries = CountryField(multiple=True, blank=True,
+    excludedCountries = CountryField(multiple=True, blank=True, max_length=800,
                                      help_text=_(
                                          "[Pro version only] able the module entirely for visitors outside of the EU. Either add the value all, or a list of 2 letter ISO codes for the countries you wish to disable the module"))
 

@@ -77,8 +77,7 @@ class Vendors(TranslatableModel):
 
     )
     url = models.URLField(help_text=_('URL third-party cookies'))
-    thirdPartyCookies = models.NullBooleanField(help_text=_('Vendors use Third party cookies'), null=True,
-                                               blank=True)
+    thirdPartyCookies = models.BooleanField(null=True, help_text=_('Vendors use Third party cookies'), blank=True)
 
     def __unicode__(self):
         return self.__str__()
@@ -183,8 +182,7 @@ class PurposeObject(TranslatableModel):
 
     # Defines whether or not this category should be accepted (opted in) as part of the user granting consent to the site's recommended settings.
     # boolean false
-    recommendedState = models.NullBooleanField(help_text=_('Should category be accepted (opted in)'), null=True,
-                                               blank=True)
+    recommendedState = models.BooleanField(null=True, help_text=_('Should category be accepted (opted in)'), blank=True)
 
     # Defines whether this category requires explicit user consent, or if the category can be toggled on prior to any
     #  user interaction and justified under the more flexible lawful basis for processing: legitimate interest.
@@ -420,14 +418,14 @@ class Branding(models.Model):
     #
     # string default: 64px
     #
-    removeIcon = models.NullBooleanField(help_text=_(
+    removeIcon = models.BooleanField(null=True, help_text=_(
         "Whether or not to remove the button icon entirely. Please note, if you do this, you will need to present an alternative trigger to run the module's open() function."),
-                                         null=True, blank=True)
+                                         blank=True)
     # Whether or not to remove the button icon entirely. Please note, if you do this, you will need to present an alternative trigger to run the module's open() function.
     #
     # boolean default: false
     #
-    removeAbout = models.NullBooleanField(help_text=_("Whether or not to remove the 'About this tool' link"), null=True,
+    removeAbout = models.BooleanField(null=True, help_text=_("Whether or not to remove the 'About this tool' link"),
                                           blank=True)
 
     # Whether or not to remove the 'About this tool' link to CIVIC at the bottom of the module.
@@ -452,19 +450,19 @@ class Accessibility(models.Model):
     accessKey = models.CharField(help_text=_('Remaps the accesskey that the module is assigned to'), max_length=512,
                                  null=True, blank=True)
 
-    highlightFocus = models.NullBooleanField(
+    highlightFocus = models.BooleanField(null=True, 
         help_text=_('Determines if the module should use more accentuated styling to highlight elements in focus'),
-        null=True, blank=True)
+        blank=True)
 
-    outline = models.NullBooleanField(null=True, blank=True,
+    outline = models.BooleanField(null=True,  blank=True,
                                       help_text=_(
                                           "Determines if the module should show the browser's default outline styling on elements. It can be combined with highlightFocus to add both a highlight and an outline to focused elements."))
 
-    overlay = models.NullBooleanField(null=True, blank=True,
+    overlay = models.BooleanField(null=True, blank=True,
                                       help_text=_(
                                           "Determines if the module should use an overlay to accentuate the presence of an open notification bar or panel and discourage use of the main site while these elements are open."))
 
-    disableSiteScrolling = models.NullBooleanField(null=True, blank=True,
+    disableSiteScrolling = models.BooleanField(null=True, blank=True,
                                       help_text=_(
                                           "Determines if the module should prevent scrolling of the site when either the notification bar or panel are open. This property is recommended for accessibility purposes, though not enabled by default."))
 
@@ -629,13 +627,13 @@ class CookieControl(models.Model):
                                   on_delete=models.CASCADE, null=True, blank=True)
 
     # Determines whether or not Cookie Control should record the user's granting or revoking of consent.
-    logConsent = models.NullBooleanField(
+    logConsent = models.BooleanField(null=True, 
         help_text=_("Determines how many days the consent of the user will be remembered for."))
 
-    encodeCookie = models.NullBooleanField(help_text=_(
+    encodeCookie = models.BooleanField(null=True, help_text=_(
         "If the value of Cookie Control's own cookie should be encoded as a Uniform Resource Identifier (URI)"))
 
-    subDomains = models.NullBooleanField(help_text=_(
+    subDomains = models.BooleanField(null=True, help_text=_(
         "Determines whether Cookie Control's own cookie is saved to the top level domain, and therefore accessible on all sub domains, or disabled and saved only to the request host."))
 
     # IABCMP and CCPA configuration and Text
@@ -679,12 +677,12 @@ class CookieControl(models.Model):
                                         "Possible values are either open, closed, notify (pro licenses only), top (pro licenses only) or box (pro licenses only)."))
 
     # Determines whether the module only shows its initialState once, or if it continues to replay on subsequent page loads
-    notifyOnce = models.NullBooleanField(null=True, blank=True,
+    notifyOnce = models.BooleanField(null=True, blank=True,
                                          help_text=_(
                                              "Determines whether the module only shows its initialState once, or if it continues to replay on subsequent page loads until the user has directly interacted with it "))
 
     # shows a reject button alongside the accept button on the notification bar
-    rejectButton = models.NullBooleanField(null=True, blank=True,
+    rejectButton = models.BooleanField(null=True, blank=True,
                                            help_text=_(
                                                "shows a reject button alongside the accept button on the notification bar, or alongside the 'accept recommended settings' button when the panel is open"))
 
@@ -710,7 +708,7 @@ class CookieControl(models.Model):
                                            "This property is used to control what will happen when the user clicks on either of the 'Accept' or 'Accept recommended settings' buttons. "))
 
     # If set to false the Cookie Control main window will remain open when the user clicks on either of the accept or reject buttons
-    closeOnGlobalChange = models.NullBooleanField(null=True, blank=True,
+    closeOnGlobalChange = models.BooleanField(null=True, blank=True,
                                                   help_text=_(
                                                       "If set to false the Cookie Control main window will remain open when the user clicks on either of the accept or reject buttons, and the user will have to explicitly close it using the X close icon at the top right, or the close button."))
 
@@ -719,7 +717,7 @@ class CookieControl(models.Model):
                                   help_text=_("Determines the closing behaviour of the module."))
 
     # Set this to false if you are using the notify interface and don't wish to show the (X) close icon on it.
-    notifyDismissButton = models.NullBooleanField(null=True, blank=True,
+    notifyDismissButton = models.BooleanField(null=True, blank=True,
                                                   help_text=_(
                                                       "Set this to false if you are using the notify interface and don't wish to show the (X) close icon on it."))
 
@@ -757,7 +755,7 @@ class CookieControl(models.Model):
                                on_delete=models.SET_NULL, null=True, blank=True)
 
     # If set to true the CookieControl cookie will be marked with the SameSite:Strict flag. Otherwise it will be flagged with SameSite:None, which however will mean that in some browsers Cookie Control will not work unless your site is served over HTTPS.
-    sameSiteCookie = models.NullBooleanField(null=True, blank=True,
+    sameSiteCookie = models.BooleanField(null=True, blank=True,
                                              help_text=_(
                                                  "Set to true the SameSite:Strict flag. Otherwise it will be flagged with SameSite:None"))
 

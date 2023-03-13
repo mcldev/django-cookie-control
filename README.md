@@ -5,6 +5,7 @@ A Django plugin to integrate the Civic UK Cookie Control (https://www.civicuk.co
 The plugin is compatible with Django, DjangoCMS and Django/CMS multisite.
 
 ## Updates
+- 2023-03-13 Remove deprecated NullBooleanField 
 - 2020-08-21 Version 4.x + Updated to use Cookie Control version 9.x
 
 ## To install
